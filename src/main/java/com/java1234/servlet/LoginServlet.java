@@ -3,6 +3,7 @@ package com.java1234.servlet;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import javax.servlet.ServletException;
@@ -30,6 +31,11 @@ public class LoginServlet extends HttpServlet {
         UsernamePasswordToken token = new UsernamePasswordToken(userName,password);
         try{
             subject.login(token);
+            Session session = subject.getSession();
+            System.out.println("sessionId:"+session.getId());
+            System.out.println("host:"+session.getHost());
+            System.out.println("sessionTimeOut:"+session.getTimeout());
+            session.setAttribute("userName",userName);
             resp.sendRedirect("success.jsp");
         }catch (Exception e){
             e.printStackTrace();
