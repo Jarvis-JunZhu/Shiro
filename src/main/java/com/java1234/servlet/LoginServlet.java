@@ -30,6 +30,12 @@ public class LoginServlet extends HttpServlet {
         Subject subject  = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userName,password);
         try{
+            if (subject.isRemembered()){
+                System.out.println("-----isRemembered-----");
+            }else {
+                token.setRememberMe(true);
+                System.out.println("没记住我");
+            }
             subject.login(token);
             Session session = subject.getSession();
             System.out.println("sessionId:"+session.getId());
